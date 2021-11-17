@@ -7,9 +7,9 @@ version: 2
 
 # Set the version of Python and other tools you might need
 build:
-  os: ubuntu-20.04
+  os: _win64
   tools:
-    python: "3.9"
+    python: "3.7"
     # You can also specify other tool versions:
     # nodejs: "16"
     # rust: "1.55"
@@ -23,16 +23,8 @@ sphinx:
 # formats:
 #    - pdf
 
-# Optionally declare the Python requirements required to build your docs
+# Optionally set the version of Python and requirements required to build your docs
 python:
-   install:
-   - requirements: docs/requirements.txt
-    - method: pip
-      path: .
-      extra_requirements:
-        - docs
-    - method: setuptools
-      path: another/package
-  system_packages: true
-
- extensions = ['myst_parser']
+  version: 3.7
+  install:
+    - requirements: docs/requirements.txt
