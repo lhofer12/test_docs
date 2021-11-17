@@ -87,7 +87,6 @@ packaging==21.2
 pandas==1.2.4
 pandocfilters==1.5.0
 parso==0.8.2
-pc-ble-driver-py==0.15.0
 pgcolorbar==1.1.1
 pickleshare==0.7.5
 Pillow==8.2.0
