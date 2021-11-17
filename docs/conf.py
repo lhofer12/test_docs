@@ -10,3 +10,5 @@ python:
     - method: setuptools
       path: another/package
   system_packages: true
+
+ extensions = ['myst_parser']
