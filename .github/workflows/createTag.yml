@@ -3,11 +3,14 @@ on:
   push:
     branches:
       - main
+    tags:
+      - 'release'
 
 env: 
   version: EngBuild8
   message: 'tag created'
   GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
+  release_text: 'releases'
   
 jobs:
   build:
@@ -19,9 +22,6 @@ jobs:
         with:
           tag_name: ${{ env.version }}
           release_name: Release ${{ github.ref }}
-          body: |
-            Changes in this Release
-            - First Change
-            - Second Change
+          body: env.release_text
           draft: false
           prerelease: false
