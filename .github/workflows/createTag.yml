@@ -3,15 +3,19 @@ on:
   push:
     branches:
       - main
+
+env: 
+  version: EngBuild8
+  message: 'tag created'
+  token:  ${{ secrets.GITHUB_TOKEN }}
+  
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Bump version and push tag
-       # You may pin to the exact commit or the version.
-       # uses: laputansoft/github-tag-action@d82ef209d8c17867be8837b59ffcf021c6d42b32
-      uses: laputansoft/github-tag-action@v4.6
-      with:
-          tag: ${{ steps.package-version.outputs.version }}
-      
+      - name: Create Tag
+        uses: negz/create-tag@v1
+        with:
+          version: ${{ env.version }}
+          message: ${{ env.message }}
+          token: ${{ env.token }}
