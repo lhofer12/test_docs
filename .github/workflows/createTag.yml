@@ -7,15 +7,21 @@ on:
 env: 
   version: EngBuild8
   message: 'tag created'
-  token:  ${{ secrets.GITHUB_TOKEN }}
+  GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
   
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Tag
-        uses: negz/create-tag@v1
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
         with:
-          version: ${{ env.version }}
-          message: ${{ env.message }}
-          token: ${{ env.token }}
+          tag_name: ${{ env.version }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false
