@@ -1,21 +1,18 @@
- name: Create Tag Release
-  # You may pin to the exact commit or the version.
-  # uses: beyond5959/create-release-github@fca5fb59dbfa2749e2850463e8c5af9e3ee0e270
-
+name: createTag
 on:
   push:
     branches:
       - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Bump version and push tag
+       # You may pin to the exact commit or the version.
+       # uses: laputansoft/github-tag-action@d82ef209d8c17867be8837b59ffcf021c6d42b32
+      uses: laputansoft/github-tag-action@v4.6
+      with:
+          github_token: ${{ env.github-token }}
+          tag: ${{ steps.package-version.outputs.version }}
       
-  uses: beyond5959/create-release-github@v1
-  with:
-    # The name of the tag. This should come from the webhook payload, `github.GITHUB_REF` when a user pushes a new tag
-    tag_name: 
-    # The name of the release. For example, `Release v1.0.1`
-    release_name: 
-    # Text describing the contents of the tag.
-    body: # optional
-    # `true` to create a draft (unpublished) release, `false` to create a published one. Default: `false`
-    draft: # optional
-    # `true` to identify the release as a prerelease. `false` to identify the release as a full release. Default: `false`
-    prerelease: # optional
