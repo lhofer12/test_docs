@@ -1,0 +1,14 @@
+name: Compile code base version and upload to azure blob storage
+on:
+  push:
+    tags:
+      - '*'
+
+
+jobs:
+  print_results:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo event name ${{ github.event.name }}
+    - run: echo event tag ${{ github.event.tag }} 
+    - run: echo event actor ${{ github.event.actor }}

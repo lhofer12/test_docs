@@ -1,0 +1,30 @@
+name: createTag
+on:
+  push:
+    branches:
+      - main
+#     tags:
+#       - 'release' # question: add certain conditions in here? 
+
+env: 
+  version: EngBuild10 # question where to get version from? 
+  
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+    steps:   
+    - name: Create tag
+      uses: tvdias/github-tagger@v0.0.1
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ env.version }}
+          
+#       - name: Create Release
+#         id: create_release
+#         uses: actions/create-release@latest
+#         with:
+#           tag_name: ${{ env.version }}
+#           release_name: Release ${{ github.ref }}
+#           body: env.release_text
+#           draft: false
+#           prerelease: false
