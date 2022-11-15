@@ -4,32 +4,20 @@ on:
     branches:
       - main
 #     tags:
-#       - 'release'
+#       - 'release' # question: add certain conditions in here? 
 
 env: 
-  version: EngBuild9
-  message: 'tag created'
-  GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
-  release_text: 'releases'
+  version: EngBuild9 # question where to get version from? 
   
 jobs:
   create-tag:
     runs-on: ubuntu-latest
     steps:   
-    - name: Tag snapshot
+    - name: Create tag
       uses: tvdias/github-tagger@v0.0.1
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ env.version }}
-#     - name: Create Tags From
-#       uses: jaywcjlove/create-tag-action@main
-#       with:
-#         test: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
-      
-#       uses: laputansoft/github-tag-action@v4.6
-#       with:
-#         github_token: ${{ env.GITHUB_TOKEN }}
-#         tag: ${{ env.version }}
           
 #       - name: Create Release
 #         id: create_release
