@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:        
     - name: Create Tags From
-      uses: jaywcjlove/create-tag-action@v1.3.14
+      uses: laputansoft/github-tag-action@v4.6
       with:
-        version: ${{ env.version }}
-        token: ${{ env.GITHUB_TOKEN }}
+        github_token: ${{ env.GITHUB_TOKEN }}
+        tag: ${{ env.version }}
           
 #       - name: Create Release
 #         id: create_release
