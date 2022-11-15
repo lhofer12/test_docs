@@ -16,12 +16,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@latest
+      - name: Create Tag
+        uses: rickstaa/action-create-tag@v1
         with:
-          tag_name: ${{ env.version }}
-          release_name: Release ${{ github.ref }}
-          body: env.release_text
-          draft: false
-          prerelease: false
+          tag: ${{env.version}}
+          message: ${{env.message}}
+#       - name: Create Release
+#         id: create_release
+#         uses: actions/create-release@latest
+#         with:
+#           tag_name: ${{ env.version }}
+#           release_name: Release ${{ github.ref }}
+#           body: env.release_text
+#           draft: false
+#           prerelease: false
