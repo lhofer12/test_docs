@@ -6,7 +6,9 @@ on:
 
 
 jobs:
-  runs-on: ubuntu-latest
-  run: echo event name ${{ github.event.name }}
-  run: echo event actor id ${{ github.event.actor.id }} 
-  run: echo event tag ${{ github.event.tag }} 
+  print_results:
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo event name ${{ github.event.name }}
+    - run: echo event tag ${{ github.event.tag }} 
+    - run: echo event actor ${{ github.event.actor }}
