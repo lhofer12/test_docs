@@ -3,11 +3,11 @@ on:
   push:
     branches:
       - main
-    tags:
-      - 'release'
+#     tags:
+#       - 'release'
 
 env: 
-  version: EngBuild8
+  version: EngBuild9
   message: 'tag created'
   GITHUB_TOKEN:  ${{ secrets.GITHUB_TOKEN }}
   release_text: 'releases'
@@ -16,7 +16,11 @@ jobs:
   create-tag:
     runs-on: ubuntu-latest
     steps:
-      - name: Create/Update tag
+      - name: "Change perms on GITHUB_WORKSPACE"
+        run: |
+          sudo chown -R root:root $GITHUB_WORKSPACE
+          sudo chmod -R 0777 $GITHUB_WORKSPACE
+      - name: "Create/update tag"
         uses: rickstaa/action-create-tag@v1
         with:
           tag: ${{ env.version }}
