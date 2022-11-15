@@ -15,12 +15,21 @@ env:
 jobs:
   create-tag:
     runs-on: ubuntu-latest
-    steps:        
-    - name: Create Tags From
-      uses: laputansoft/github-tag-action@v4.6
+    steps:   
+    - name: Tag snapshot
+      uses: tvdias/github-tagger@v0.0.1
       with:
-        github_token: ${{ env.GITHUB_TOKEN }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
         tag: ${{ env.version }}
+#     - name: Create Tags From
+#       uses: jaywcjlove/create-tag-action@main
+#       with:
+#         test: '[R|r]elease[d]\s+[v|V]\d(\.\d+){0,2}'
+      
+#       uses: laputansoft/github-tag-action@v4.6
+#       with:
+#         github_token: ${{ env.GITHUB_TOKEN }}
+#         tag: ${{ env.version }}
           
 #       - name: Create Release
 #         id: create_release
