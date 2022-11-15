@@ -9,6 +9,6 @@ jobs:
   print_results:
     runs-on: ubuntu-latest
     steps:
-    - run: echo event name ${{ github.event.name }}
-    - run: echo event tag ${{ github.event.tag }} 
-    - run: echo event actor ${{ github.event.actor }}
+    - run: echo "event name ${{ github.event_name }}"
+    - run: echo "event tag ${{ github.event_tag }}" 
+    - run: echo "event actor ${{ github.event_actor }}"
