@@ -15,14 +15,10 @@ env:
 jobs:
   create-tag:
     runs-on: ubuntu-latest
-    steps:
-      - name: "Change perms on GITHUB_WORKSPACE"
-        run: |
-          sudo chown -R root:root $GITHUB_WORKSPACE
-          sudo chmod -R 0777 $GITHUB_WORKSPACE
-      - name: "Create/update tag"
-        uses: rickstaa/action-create-tag@v1
-        with:
+    steps:        
+    - name: "Create/update tag"
+      uses: rickstaa/action-create-tag@v1.3.0
+      with:
           tag: ${{ env.version }}
           message: ${{ env.message }}
           github_token: ${{ env.GITHUB_TOKEN }}
