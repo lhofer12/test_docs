@@ -20,7 +20,7 @@ jobs:
           github.rest.git.createRef({
             owner: context.repo.owner,
             repo: context.repo.repo,
-            ref: 'refs/tags/<tagname>',
+            ref: 'refs/tags/<env.version>',
             sha: context.sha
             })
 #       uses: tvdias/github-tagger@v0.0.1
