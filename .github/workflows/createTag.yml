@@ -7,7 +7,7 @@ on:
 #       - 'release' # question: add certain conditions in here? 
 
 env: 
-  version: EngBuild9 # question where to get version from? 
+  version: EngBuild10 # question where to get version from? 
   
 jobs:
   create-tag:
