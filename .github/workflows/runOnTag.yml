@@ -1,8 +1,8 @@
-name: Compile code base version and upload to azure blob storage
+name: Run workflow on tag push
 on:
   push:
     tags:
-      - '*'
+      - '**'
 
 
 jobs:
