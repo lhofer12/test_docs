@@ -14,10 +14,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:   
     - name: Create tag
-      uses: tvdias/github-tagger@v0.0.1
+      uses: actions/github-script@v5
       with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ env.version }}
+        script: |
+          github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/<tagname>',
+            sha: context.sha
+            })
+#       uses: tvdias/github-tagger@v0.0.1
+#       with:
+#         repo-token: ${{ secrets.GITHUB_TOKEN }}
+#         tag: ${{ env.version }}
           
 #       - name: Create Release
 #         id: create_release
