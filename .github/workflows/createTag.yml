@@ -20,7 +20,7 @@ jobs:
       uses: jaywcjlove/create-tag-action@v1.3.14
       with:
         version: ${{ env.version }}
-        token: ${ env.GITHUB_TOKEN }}
+        token: ${{ env.GITHUB_TOKEN }}
           
 #       - name: Create Release
 #         id: create_release
