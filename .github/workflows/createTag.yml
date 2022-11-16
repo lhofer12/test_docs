@@ -36,7 +36,7 @@ jobs:
         repo: test_docs_target
         github_token: ${{ secrets.G_ACCESS_TOKEN }}
         workflow_file_name: Testing.yml
-        inputs: '{"version": "${{ env.version }}"}'
+        client_payload: '{"version": "${{ env.version }}"}'
         version: "${{ env.version }}"
 #         client_payload: '{"inputs":{"version": "${{ env.version }}" }}'
 
