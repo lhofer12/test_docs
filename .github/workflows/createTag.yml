@@ -21,7 +21,6 @@ jobs:
             owner: context.repo.owner,
             repo: context.repo.repo,
             ref: 'refs/tags/${{ env.version }}',
-
             sha: context.sha
             })
   run-workflow:
@@ -37,17 +36,5 @@ jobs:
         repo: test_docs_target
         github_token: ${{ secrets.G_ACCESS_TOKEN }}
         workflow_file_name: Testing.yml
-#       uses: tvdias/github-tagger@v0.0.1
-#       with:
-#         repo-token: ${{ secrets.GITHUB_TOKEN }}
-#         tag: ${{ env.version }}
-          
-#       - name: Create Release
-#         id: create_release
-#         uses: actions/create-release@latest
-#         with:
-#           tag_name: ${{ env.version }}
-#           release_name: Release ${{ github.ref }}
-#           body: env.release_text
-#           draft: false
-#           prerelease: false
+        client_payload: '{"version": ${{ env.version }} }'
+
