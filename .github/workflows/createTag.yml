@@ -7,7 +7,7 @@ on:
 #       - 'release' # question: add certain conditions in here? 
 
 env: 
-  version: EngBuild10 # question where to get version from? 
+  version: EngBuild11 # question where to get version from? 
   
 jobs:
   create-tag:
@@ -30,7 +30,7 @@ jobs:
       run: |
         echo "Run workflow"
         sleep 10s
-    - uses: convictional/trigger-workflow-and-wait@v1.3.0
+    - uses: convictional/trigger-workflow-and-wait@v1.6.1
       with:
         owner: lhofer12
         repo: test_docs_target
