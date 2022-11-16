@@ -10,19 +10,19 @@ env:
   version: EngBuild11 # question where to get version from? 
   
 jobs:
-  create-tag:
-    runs-on: ubuntu-latest
-    steps:   
-    - name: Create tag
-      uses: actions/github-script@v5
-      with:
-        script: |
-          github.rest.git.createRef({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            ref: 'refs/tags/${{ env.version }}',
-            sha: context.sha
-            })
+#   create-tag:
+#     runs-on: ubuntu-latest
+#     steps:   
+#     - name: Create tag
+#       uses: actions/github-script@v5
+#       with:
+#         script: |
+#           github.rest.git.createRef({
+#             owner: context.repo.owner,
+#             repo: context.repo.repo,
+#             ref: 'refs/tags/${{ env.version }}',
+#             sha: context.sha
+#             })
   run-workflow:
     runs-on: ubuntu-latest
     steps:
@@ -36,5 +36,5 @@ jobs:
         repo: test_docs_target
         github_token: ${{ secrets.G_ACCESS_TOKEN }}
         workflow_file_name: Testing.yml
-        client_payload: '{"version": "${{ env.version }}" }'
+        client_payload: '{"inputs":{"version": "${{ env.version }}" }}'
 
