@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - main
+      - engineering
 #     tags:
 #       - 'release' # question: add certain conditions in here? 
 
@@ -10,6 +11,12 @@ env:
   version: EngBuild12 # question where to get version from? 
   
 jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo " branch ${{ github.ref_name }} ref name"
+      - run: echo "${{ github.event }}"
 #   create-tag:
 #     runs-on: ubuntu-latest
 #     steps:   
@@ -23,20 +30,20 @@ jobs:
 #             ref: 'refs/tags/${{ env.version }}',
 #             sha: context.sha
 #             })
-  run-workflow:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Run other workflow
-      run: |
-        echo "Run workflow"
-        sleep 10s
-    - uses: convictional/trigger-workflow-and-wait@v1.6.1
-      with:
-        owner: lhofer12
-        repo: test_docs_target
-        github_token: ${{ secrets.G_ACCESS_TOKEN }}
-        workflow_file_name: Testing.yml
-        client_payload: '{"version": "${{ env.version }}"}'
-#         version: "${{ env.version }}"
-#         client_payload: '{"inputs":{"version": "${{ env.version }}" }}'
+#   run-workflow:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - name: Run other workflow
+#       run: |
+#         echo "Run workflow"
+#         sleep 10s
+#     - uses: convictional/trigger-workflow-and-wait@v1.6.1
+#       with:
+#         owner: lhofer12
+#         repo: test_docs_target
+#         github_token: ${{ secrets.G_ACCESS_TOKEN }}
+#         workflow_file_name: Testing.yml
+#         client_payload: '{"version": "${{ env.version }}"}'
+# #         version: "${{ env.version }}"
+# #         client_payload: '{"inputs":{"version": "${{ env.version }}" }}'
 
