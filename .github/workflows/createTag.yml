@@ -9,14 +9,16 @@ on:
 
 env: 
   version: EngBuild12 # question where to get version from? 
+  branch_merge: ${{ github.ref_name }}
+  branch_push: ${{ github.event.pusher.name }}
   
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo " branch ${{ github.ref_name }} ref name"
-      - run: echo "${{ github.event }}"
+      - run: echo " branch, ${{ env.branch_merge }} "
+      - run: echo "initiated by ${{ github.branch_push }}"
 #   create-tag:
 #     runs-on: ubuntu-latest
 #     steps:   
