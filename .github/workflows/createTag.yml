@@ -1,10 +1,11 @@
 name: createTag
 on:
   pull_request:
-    branches:
-      - master
-      - engineering
-    types: [closed]
+#     branches:
+#       - master
+#       - engineering
+    types: 
+      - closed
 
 
 env: 
