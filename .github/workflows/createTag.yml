@@ -1,11 +1,11 @@
 name: createTag
 on:
-  push:
+  pull_request:
     branches:
-      - main
+      - master
       - engineering
-#     tags:
-#       - 'release' # question: add certain conditions in here? 
+    types: [closed]
+
 
 env: 
   version: EngBuild12 # question where to get version from? 
@@ -17,6 +17,7 @@ env:
   
 jobs:
   Explore-GitHub-Actions:
+    if: github.event.pull_request.merged == true  
     runs-on: ubuntu-latest
     steps:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
