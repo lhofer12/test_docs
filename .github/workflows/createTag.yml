@@ -2,26 +2,31 @@ name: createTag
 on:
   pull_request:
     branches:
-      - master
+      - main
       - engineering
-    types: [closed]
+    types: 
+      - closed
 
 
 env: 
-  version: EngBuild12 # question where to get version from? 
   branch_merge: ${{ github.ref_name }}
-  branch_push: ${{ github.event.pusher.name }}
-  head_ref: $GITHUB_HEAD_REF
-  base_ref: $GITHUB_BASE_REF
-  path: $GITHUB_EVENT_PATH
+  branch_source: ${{ github.head_ref }}
   
 jobs:
-  Explore-GitHub-Actions:
+  Run-engineering:
     if: github.event.pull_request.merged == true  
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - name: set-engineering-build
+        if: env.branch_merge  == 'engineering'
+        run: |
+          echo "build_name=Eng${{ env.branch_source }}" >> $GITHUB_ENV
+      - name: set-main-build
+        if: env.branch_merge  == 'main'
+        run: |
+          echo "build_name=${{ env.branch_source }}" >> $GITHUB_ENV
       - run: env
+      
 #   create-tag:
 #     runs-on: ubuntu-latest
 #     steps:   
