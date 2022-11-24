@@ -13,16 +13,16 @@ env:
   branch_source: ${{ github.head_ref }}
   
 jobs:
-  Explore-GitHub-Actions:
+  Run-engineering:
     if: github.event.pull_request.merged == true  
     runs-on: ubuntu-latest
     steps:
       - name: set-engineering-build
-        if: ${{ env.branch_merge }} == 'engineering'
+        if: env.branch_merge  == 'engineering'
         run: |
           echo "build_name=Eng${{ env.branch_source }}" >> $GITHUB_ENV
       - name: set-main-build
-        if: ${{ env.branch_merge }} == 'main'
+        if: env.branch_merge  == 'main'
         run: |
           echo "build_name=${{ env.branch_source }}" >> $GITHUB_ENV
       - run: env
