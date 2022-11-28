@@ -40,20 +40,19 @@ jobs:
 #             ref: 'refs/tags/${{ env.version }}',
 #             sha: context.sha
 #             })
-#   run-workflow:
-#     runs-on: ubuntu-latest
-#     steps:
-#     - name: Run other workflow
-#       run: |
-#         echo "Run workflow"
-#         sleep 10s
-#     - uses: convictional/trigger-workflow-and-wait@v1.6.1
-#       with:
-#         owner: lhofer12
-#         repo: test_docs_target
-#         github_token: ${{ secrets.G_ACCESS_TOKEN }}
-#         workflow_file_name: Testing.yml
-#         client_payload: '{"version": "${{ env.version }}"}'
-# #         version: "${{ env.version }}"
-# #         client_payload: '{"inputs":{"version": "${{ env.version }}" }}'
+  run-workflow:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run other workflow
+      run: |
+        echo "Run workflow"
+        sleep 10s
+    - uses: convictional/trigger-workflow-and-wait@v1.6.1
+      with:
+        owner: lhofer12
+        repo: test_docs_target
+        github_token: ${{ secrets.G_ACCESS_TOKEN }}
+        workflow_file_name: Testing.yml        
+        client_payload: '{"matlabtag": "${{ env.build_name }}","releaseType":"${{env.releaseType}, "buildVersion": "${{ env.build_name}}, "branch":"${{ env.branch_'
+
 
