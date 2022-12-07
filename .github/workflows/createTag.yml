@@ -13,14 +13,14 @@ env:
   branch_source: ${{ github.head_ref }}
   
 jobs:
-  define-variables:
+  run-workflow:
     if: github.event.pull_request.merged == true  
     runs-on: ubuntu-latest
     steps:
       - name: set-engineering-build
         if: env.branch_merge  == 'engineering'
         run: |
-          echo "build_name=Eng${{ env.branch_source }}" >> $GITHUB_ENV
+          echo "matlabTag=Eng${{ env.branch_source }}" >> $GITHUB_ENV
       - name: set-engineering-release
         if: env.branch_merge  == 'engineering'
         run: |
@@ -28,7 +28,7 @@ jobs:
       - name: set-main-build
         if: env.branch_merge  == 'main'
         run: |
-          echo "build_name=${{ env.branch_source }}" >> $GITHUB_ENV
+          echo "matlabTag=${{ env.branch_source }}" >> $GITHUB_ENV
       - name: set-main-release
         if: env.branch_merge  == 'main'
         run: |
@@ -36,7 +36,7 @@ jobs:
       - run: env  
       - id: get-buildVersion
         run: |
-          id=$(echo ${{steps.get-matlabTag.outputs.id}} | cut -dd -f2)
+          id=$(echo ${{env.matlabTag}} | cut -dd -f2)
           echo "::set-output name=id::$id"
       - name: Run other workflow
         run: |
@@ -48,20 +48,16 @@ jobs:
           repo: test_docs_target
           github_token: ${{ secrets.G_ACCESS_TOKEN }}
           workflow_file_name: PullRequest.yml        
-          client_payload: '{"matlabtag": "${{ env.build_name }}","releaseType":"${{env.releaseType}}", "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
-  create-tag:
-    if: github.event.pull_request.merged == true  
-    runs-on: ubuntu-latest
-    steps:   
-    - name: Create tag
-      uses: actions/github-script@v5
-      with:
-        script: |
-          github.rest.git.createRef({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            ref: 'refs/tags/${{ env.build_name }}',
-            sha: context.sha
-            })
+          client_payload: '{"matlabtag": "${{ env.matlabTag }}","releaseType":"${{env.releaseType}}", "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ env.matlabTag }}',
+              sha: context.sha
+              })
 
    
