@@ -33,7 +33,11 @@ jobs:
         if: env.branch_merge  == 'main'
         run: |
           echo "releaseType=Commercial" >> $GITHUB_ENV
-      - run: env   
+      - run: env  
+      - id: get-buildVersion
+        run: |
+          id=$(echo ${{steps.get-matlabTag.outputs.id}} | cut -dd -f2)
+          echo "::set-output name=id::$id"
       - name: Run other workflow
         run: |
           echo "Run workflow"
@@ -44,19 +48,20 @@ jobs:
           repo: test_docs_target
           github_token: ${{ secrets.G_ACCESS_TOKEN }}
           workflow_file_name: Testing.yml        
-          client_payload: '{"matlabtag": "${{ env.build_name }}","releaseType":"${{env.releaseType}}", "buildVersion": "${{ env.build_name}}"}'
-#   create-tag:
-#     runs-on: ubuntu-latest
-#     steps:   
-#     - name: Create tag
-#       uses: actions/github-script@v5
-#       with:
-#         script: |
-#           github.rest.git.createRef({
-#             owner: context.repo.owner,
-#             repo: context.repo.repo,
-#             ref: 'refs/tags/${{ env.version }}',
-#             sha: context.sha
-#             })
+          client_payload: '{"matlabtag": "${{ env.build_name }}","releaseType":"${{env.releaseType}}", "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
+  create-tag:
+    if: github.event.pull_request.merged == true  
+    runs-on: ubuntu-latest
+    steps:   
+    - name: Create tag
+      uses: actions/github-script@v5
+      with:
+        script: |
+          github.rest.git.createRef({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            ref: 'refs/tags/${{ env.version }}',
+            sha: context.sha
+            })
 
    
