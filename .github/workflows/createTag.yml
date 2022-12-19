@@ -1,15 +1,19 @@
 name: createTag
 on:
-  pull_request:
-    branches:
-      - main
-      - engineering
-    types: 
-      - closed
+  workflow_dispatch:
+    inputs:
+      ref_name: 
+      head_ref: 
+#   pull_request:
+#     branches:
+#       - main
+#       - engineering
+#     types: 
+#       - closed
 
 env:
-  branch_merge: ${{ github.ref_name }}
-  branch_source: ${{ github.head_ref }}
+  branch_merge: ${{ inputs.ref_name }}
+  branch_source: ${{ inputs.head_ref }}
   
 jobs:
   define-variables:
