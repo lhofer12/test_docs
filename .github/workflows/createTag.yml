@@ -16,13 +16,14 @@ jobs:
     if: github.event.pull_request.merged == true  
     runs-on: ubuntu-latest
     steps:
-      - name: get-buildVersion
+      - id: get-buildVersion
         run: |
-          echo "buildVersion${{ env.branch_source }}| cut -d- -f3" >> $GITHUB_ENV
+          id=$(echo ${{env.branch_source}} | cut -d- -f3)
+          echo "::set-output name=id::$id"        
       - name: set-engineering-build
         if: env.branch_merge  == 'engineering'
         run: |
-          echo "matlabTag=EngBuild${{ env.buildVersion }}" >> $GITHUB_ENV
+          echo "matlabTag=EngBuild${{ steps.get-buildVersion.id }}" >> $GITHUB_ENV
       - name: set-engineering-release
         if: env.branch_merge  == 'engineering'
         run: |
@@ -30,15 +31,11 @@ jobs:
       - name: set-main-build
         if: env.branch_merge  == 'main'
         run: |
-          echo "matlabTag=Build${{ env.buildVersion }}" >> $GITHUB_ENV
+          echo "matlabTag=Build${{ steps.get-buildVersion.id  }}" >> $GITHUB_ENV
       - name: set-main-release
         if: env.branch_merge  == 'main'
         run: |
           echo "releaseType=Commercial" >> $GITHUB_ENV
-#       - id: get-buildVersion
-#         run: |
-#           id=$(echo ${{env.matlabTag}} | cut -d- -f3)
-#           echo "::set-output name=id::$id"        
       - name: Create tag
         uses: actions/github-script@v5
         with:
@@ -59,4 +56,4 @@ jobs:
 #           repo: flopatch-matlab
 #           github_token: ${{ secrets.G_ACCESS_TOKEN }} # TODDO create access token
 #           workflow_file_name: pullRequest.yml
-#           client_payload: '{"matlabtag": "${{ env.matlabTag }}","releaseType":"${{env.releaseType}}, "buildVersion": "${{ env.buildVersion}}"}'
+#           client_payload: '{"matlabtag": "${{ env.matlabTag }}","releaseType":"${{env.releaseType}}, "buildVersion": "${{ steps.get-buildVersion.id }}"}'
