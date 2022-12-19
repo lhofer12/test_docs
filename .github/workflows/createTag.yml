@@ -21,39 +21,45 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - id: get-buildVersion
-        run: |
-          id=$(echo ${{env.branch_source}} | cut -d- -f3)
-          echo "::set-output name=id::$id"        
-      - name: set-engineering-build
-        if: env.branch_merge  == 'engineering'
-        run: |
-          echo "matlabTag=EngBuild${{ steps.get-buildVersion.id }}" >> $GITHUB_ENV
-      - name: set-engineering-release
-        if: env.branch_merge  == 'engineering'
-        run: |
-          echo "releaseType=Engineering" >> $GITHUB_ENV
-      - name: set-main-build
-        if: env.branch_merge  == 'main'
-        run: |
-          echo "matlabTag=Build${{ steps.get-buildVersion.id  }}" >> $GITHUB_ENV
-      - name: set-main-release
-        if: env.branch_merge  == 'main'
-        run: |
-          echo "releaseType=Commercial" >> $GITHUB_ENV
-      - name: Create tag
-        uses: actions/github-script@v5
+        uses: actions/github-script@0.9.0
         with:
           script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/${{ env.matlabTag }}',
-              sha: context.sha
-              })
-      - name: Run flopatch-matlab repo workflows
-        run: |
-          echo "Run workflow"
-          sleep 10s
+            const buildVersion = env.branch_source.value.split('-')[2]
+            core.setOutput('buildVersion', buildVersion)
+      - run: echo "${{steps.get-buildVersion.outputs.id}}"
+#       - id: get-s
+#         run: |
+#           buildVersion="${{env.branch_source}} | cut -d- -f3)" >> $GITHUB_ENV
+#       - name: set-engineering-build
+#         if: env.branch_merge  == 'engineering'
+#         run: |
+#           echo "matlabTag=EngBuild${{ steps.get-buildVersion.id }}" >> $GITHUB_ENV
+#       - name: set-engineering-release
+#         if: env.branch_merge  == 'engineering'
+#         run: |
+#           echo "releaseType=Engineering" >> $GITHUB_ENV
+#       - name: set-main-build
+#         if: env.branch_merge  == 'main'
+#         run: |
+#           echo "matlabTag=Build${{ steps.get-buildVersion.id  }}" >> $GITHUB_ENV
+#       - name: set-main-release
+#         if: env.branch_merge  == 'main'
+#         run: |
+#           echo "releaseType=Commercial" >> $GITHUB_ENV
+#       - name: Create tag
+#         uses: actions/github-script@v5
+#         with:
+#           script: |
+#             github.rest.git.createRef({
+#               owner: context.repo.owner,
+#               repo: context.repo.repo,
+#               ref: 'refs/tags/${{ env.matlabTag }}',
+#               sha: context.sha
+#               })
+#       - name: Run flopatch-matlab repo workflows
+#         run: |
+#           echo "Run workflow"
+#           sleep 10s
 #       - uses: convictional/trigger-workflow-and-wait@v1.6.1
 #         with:
 #           owner: FlosonicsMedical # question: who is owner of matlab repo
