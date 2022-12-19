@@ -25,25 +25,22 @@ jobs:
             id=$( echo ${{ env.branch_source}} | cut -d- -f3) >> $GITHUB_ENV
             echo "::set-output name=id::$id"
       - run: echo "${{steps.get-buildVersion.outputs.id}}"
-#       - id: get-s
-#         run: |
-#           buildVersion="${{env.branch_source}} | cut -d- -f3)" >> $GITHUB_ENV
-#       - name: set-engineering-build
-#         if: env.branch_merge  == 'engineering'
-#         run: |
-#           echo "matlabTag=EngBuild${{ steps.get-buildVersion.id }}" >> $GITHUB_ENV
-#       - name: set-engineering-release
-#         if: env.branch_merge  == 'engineering'
-#         run: |
-#           echo "releaseType=Engineering" >> $GITHUB_ENV
-#       - name: set-main-build
-#         if: env.branch_merge  == 'main'
-#         run: |
-#           echo "matlabTag=Build${{ steps.get-buildVersion.id  }}" >> $GITHUB_ENV
-#       - name: set-main-release
-#         if: env.branch_merge  == 'main'
-#         run: |
-#           echo "releaseType=Commercial" >> $GITHUB_ENV
+      - name: set-engineering-build
+        if: env.branch_merge  == 'engineering'
+        run: |
+          echo "matlabTag=EngBuild${{ steps.get-buildVersion.id }}" >> $GITHUB_ENV
+      - name: set-engineering-release
+        if: env.branch_merge  == 'engineering'
+        run: |
+          echo "releaseType=Engineering" >> $GITHUB_ENV
+      - name: set-main-build
+        if: env.branch_merge  == 'main'
+        run: |
+          echo "matlabTag=Build${{ steps.get-buildVersion.id  }}" >> $GITHUB_ENV
+      - name: set-main-release
+        if: env.branch_merge  == 'main'
+        run: |
+          echo "releaseType=Commercial" >> $GITHUB_ENV
 #       - name: Create tag
 #         uses: actions/github-script@v5
 #         with:
