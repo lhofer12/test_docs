@@ -22,8 +22,8 @@ jobs:
     steps:
       - id: get-buildVersion
         run: |
-            id=$( echo ${{ env.branch_source}} | cut -d- -f3) >>$GITHUB_ENV
-#            echo "::set-output name=id::$id
+            id=$( echo ${{ env.branch_source}} | cut -d- -f3) >> $GITHUB_ENV
+            echo "::set-output name=id::$id
       - run: echo "${{steps.get-buildVersion.outputs.id}}"
 #       - id: get-s
 #         run: |
