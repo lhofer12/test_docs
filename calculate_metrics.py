@@ -7,10 +7,7 @@ import numpy as np
 path = "C:/Users/lisam\Dropbox (Flosonics Medical)/Engineering/Signal Processing/Lisa Hofer/metrics_template.xlsx"
 df = pd.read_excel(path)
 
-status = df['good/bad']
-CV_CFT = df['CV cCFT']
-CV_SE = df['CV SE fraction']
-CV_SP = df['CV SP fraction']
+
 mean_outlier = df['Mean of outlier score']
 CV_HR = df['CV HR']
 
