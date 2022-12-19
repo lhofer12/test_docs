@@ -24,7 +24,7 @@ jobs:
         uses: actions/github-script@0.9.0
         with:
           script: |
-            const buildVersion = env.branch_source.value.split('-')[2]
+            const buildVersion = ${{ env.branch_source}}.value.split('-')[2]
             core.setOutput('buildVersion', buildVersion)
       - run: echo "${{steps.get-buildVersion.outputs.id}}"
 #       - id: get-s
