@@ -63,4 +63,4 @@ jobs:
           repo: test_docs_target
           github_token: ${{ secrets.G_ACCESS_TOKEN }} # TODDO create access token
           workflow_file_name: pullRequest.yml
-          client_payload: '{"matlabtag": "${{env.matlabTag}}","releaseType":"${{env.releaseType}}, "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
+          client_payload: '{"matlabtag": "${{env.matlabTag}}","releaseType":"${{env.releaseType}}", "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
