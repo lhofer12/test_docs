@@ -59,8 +59,8 @@ jobs:
           sleep 10s
       - uses: convictional/trigger-workflow-and-wait@v1.6.1
         with:
-          owner: FlosonicsMedical # question: who is owner of matlab repo
-          repo: flopatch-matlab
+          owner: lhofer12 # question: who is owner of matlab repo
+          repo: test_docs_target
           github_token: ${{ secrets.G_ACCESS_TOKEN }} # TODDO create access token
           workflow_file_name: pullRequest.yml
           client_payload: '{"matlabtag": "${{env.matlabTag}}","releaseType":"${{env.releaseType}}, "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
