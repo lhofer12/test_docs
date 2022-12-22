@@ -53,7 +53,7 @@ jobs:
           repo: test_docs_target
           github_token: ${{ secrets.G_ACCESS_TOKEN }}
           workflow_file_name: PullRequest.yml        
-          client_payload: '{"${{env.matlabTag}}","releaseType":"${{env.releaseType}}", "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
+          client_payload: '{"matlabtag":"${{env.matlabTag}}","releaseType":"${{env.releaseType}}", "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
       - name: Create tag
         uses: actions/github-script@v5
         with:
