@@ -43,6 +43,17 @@ jobs:
           echo "releaseType=Commercial" >> $GITHUB_ENV
       - name: run-env
         run: env
+      - name: Run flopatch-matlab repo workflows
+        run: |
+          echo "Run workflow"
+          sleep 10s
+      - uses: convictional/trigger-workflow-and-wait@v1.6.1
+        with:
+          owner: lhofer12
+          repo: test_docs_target
+          github_token: ${{ secrets.G_ACCESS_TOKEN }}
+          workflow_file_name: PullRequest.yml        
+          client_payload: '{"${{env.matlabTag}}","releaseType":"${{env.releaseType}}", "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
       - name: Create tag
         uses: actions/github-script@v5
         with:
@@ -53,14 +64,3 @@ jobs:
               ref: 'refs/tags/${{env.matlabTag}}',
               sha: context.sha
               })
-      - name: Run flopatch-matlab repo workflows
-        run: |
-          echo "Run workflow"
-          sleep 10s
-      - uses: convictional/trigger-workflow-and-wait@v1.6.1
-        with:
-          owner: lhofer12 # question: who is owner of matlab repo
-          repo: test_docs_target
-          github_token: ${{ secrets.G_ACCESS_TOKEN }} # TODDO create access token
-          workflow_file_name: pullRequest.yml
-          client_payload: '{"matlabtag": "${{env.matlabTag}}","releaseType":"${{env.releaseType}}", "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
