@@ -43,24 +43,24 @@ jobs:
           echo "releaseType=Commercial" >> $GITHUB_ENV
       - name: run-env
         run: env
-#       - name: Create tag
-#         uses: actions/github-script@v5
-#         with:
-#           script: |
-#             github.rest.git.createRef({
-#               owner: context.repo.owner,
-#               repo: context.repo.repo,
-#               ref: 'refs/tags/${{ env.matlabTag }}',
-#               sha: context.sha
-#               })
-#       - name: Run flopatch-matlab repo workflows
-#         run: |
-#           echo "Run workflow"
-#           sleep 10s
-#       - uses: convictional/trigger-workflow-and-wait@v1.6.1
-#         with:
-#           owner: FlosonicsMedical # question: who is owner of matlab repo
-#           repo: flopatch-matlab
-#           github_token: ${{ secrets.G_ACCESS_TOKEN }} # TODDO create access token
-#           workflow_file_name: pullRequest.yml
-#           client_payload: '{"matlabtag": "${{ env.matlabTag }}","releaseType":"${{env.releaseType}}, "buildVersion": "${{ steps.get-buildVersion.id }}"}'
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{env.matlabTag}}',
+              sha: context.sha
+              })
+      - name: Run flopatch-matlab repo workflows
+        run: |
+          echo "Run workflow"
+          sleep 10s
+      - uses: convictional/trigger-workflow-and-wait@v1.6.1
+        with:
+          owner: FlosonicsMedical # question: who is owner of matlab repo
+          repo: flopatch-matlab
+          github_token: ${{ secrets.G_ACCESS_TOKEN }} # TODDO create access token
+          workflow_file_name: pullRequest.yml
+          client_payload: '{"matlabtag": "${{env.matlabTag}}","releaseType":"${{env.releaseType}}, "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
