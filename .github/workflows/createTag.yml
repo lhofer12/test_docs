@@ -24,11 +24,15 @@ jobs:
         run: |
             id=$( echo ${{ env.branch_source}} | cut -d- -f3)
             echo "::set-output name=id::$id"
+      - name: log-failure1
+        if: failure()
+        run: echo "${{env.branch_source}} is not in the correct format, please check merge branch format is xxx-build-###"
       - name: check-buildVersion
         if: steps.get-buildVersion.outputs.id > 0
         run: echo "${{steps.get-buildVersion.outputs.id}}"
+      - run: echo "${{steps.get-buildVersion.outputs}}"
       - name: log-failure
-        if: failure()
+        if: steps.check-buildVersion.outputs.
         run: echo "${{steps.get-buildVersion.outputs.id}} is not a number, please check merge branch format is xxx-build-###"
       - name: set-engineering-build
         if: env.branch_merge  == 'engineering'
