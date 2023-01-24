@@ -25,7 +25,7 @@ jobs:
           echo "buildVersion=$( echo ${{ env.branch_source}} | cut -d- -f3)" >> $GITHUB_ENV
       - name: log-failure1
         if: failure()
-        run: echo "${{env.branch_source}} is not in the correct format, please check merge branch format is xxx-build-###"
+        run: echo "source branch name-''${{env.branch_source}}'' is not in the correct format, please check merge branch format is xxx-build-###"
       - id: check-buildVersion
         if: env.buildVersion >0
         run: |
@@ -33,7 +33,7 @@ jobs:
           echo "buildVersionTrack=$id" >> $GITHUB_OUTPUT
       - name: if-failure
         if: steps.check-buildVersion.outputs.buildVersionTrack != 'passed'
-        run: echo "${{steps.get-buildVersion.outputs.id}} is not a number, please check merge branch format is xxx-build-###"
+        run: echo "build version from source branch name-''${{env.buildVersion}}'' is not a number, please check merge branch format is xxx-build-###"
       - name: set-engineering-build
         if: env.branch_merge  == 'engineering' && steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
         run: |
