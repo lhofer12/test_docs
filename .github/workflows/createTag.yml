@@ -46,9 +46,8 @@ jobs:
         if: env.branch_merge  == 'main'
         run: |
           echo "matlabTag=Build${{steps.get-buildVersion.outputs.id}}" >> $GITHUB_ENV
-      - name: check-skip
-        if: skipped()
-        run: echo "here"
+#       - name: check-status
+        
 #       - name: set-main-release
 #         if: env.branch_merge  == 'main'
 #         run: |
