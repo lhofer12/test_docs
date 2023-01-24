@@ -37,7 +37,7 @@ jobs:
       - name: set-engineering-build
         if: env.branch_merge  == 'engineering' && steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
         run: |
-          echo "matlabTag=EngBuild${{steps.get-buildVersion.outputs.id}}" >> $GITHUB_ENV
+          echo "matlabTag=EngBuild${{env.buildVersion}}" >> $GITHUB_ENV
       - name: set-engineering-release
         if: env.branch_merge  == 'engineering' && steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
         run: |
@@ -45,7 +45,7 @@ jobs:
       - name: set-main-build
         if: steps.check-buildVersion.outputs.buildVersionTrack == 'passed' && env.branch_merge  == 'main'
         run: |
-          echo "matlabTag=Build${{steps.get-buildVersion.outputs.id}}" >> $GITHUB_ENV        
+          echo "matlabTag=Build${{env.buildVersion}}" >> $GITHUB_ENV        
       - name: set-main-release
         if: env.branch_merge  == 'main' && steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
         run: |
@@ -66,7 +66,7 @@ jobs:
           repo: test_docs_target
           github_token: ${{ secrets.G_ACCESS_TOKEN }}
           workflow_file_name: PullRequest.yml        
-          client_payload: '{"matlabtag":"${{env.matlabTag}}","releaseType":"${{env.releaseType}}", "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
+          client_payload: '{"matlabtag":"${{env.matlabTag}}","releaseType":"${{env.releaseType}}", "buildVersion": "${{env.buildVersion}}"}'
       - name: Create tag
         if: steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
         uses: actions/github-script@v5
@@ -78,5 +78,8 @@ jobs:
               ref: 'refs/tags/${{env.matlabTag}}',
               sha: context.sha
               })
+      - name: tag-failure
+        if: failure()
+        run: echo "Tag not created"
 #       - name: complete
        # TODO logging
