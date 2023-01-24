@@ -20,7 +20,7 @@ jobs:
 #     if: github.event.pull_request.merged == true  
     runs-on: ubuntu-latest
     steps:
-      - name: get-buildVersion
+      - id: get-buildVersion
         run: |
           id=$( echo ${{ env.branch_source}} | cut -d- -f3)
           echo "::set-output name=id::$id"
