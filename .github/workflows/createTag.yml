@@ -22,18 +22,19 @@ jobs:
     steps:
       - id: get-buildVersion
         run: |
-          echo "id=$( echo ${{ env.branch_source}} | cut -d- -f3)" >> $GITHUB_OUTPUT
+          echo "buildVersion=$( echo ${{ env.branch_source}} | cut -d- -f3)" >> $GITHUB_ENV
          # echo "id=$id" >> $GITHUB_OUTPUT
       - name: log-failure1
         if: failure()
         run: echo "${{env.branch_source}} is not in the correct format, please check merge branch format is xxx-build-###"
       - id: check-buildVersion
-        if: steps.get-buildVersion.outputs.id > 0
+#         if: steps.get-buildVersion.outputs.id > 0
+        if: env.buildVersion >0
         run: |
           id=$( echo 'passed')
-          echo "::set-output name=id::$id"
+          echo "buildVersionTrack=$id" >> $GITHUB_OUTPUT
       - name: if-failure
-        if: steps.check-buildVersion.outputs.id != 'passed'
+        if: steps.check-buildVersion.outputs.buildVersionTrack != 'passed'
         run: echo "${{steps.get-buildVersion.outputs.id}} is not a number, please check merge branch format is xxx-build-###"
 #       - name: log-failure
 #         if: steps.check-buildVersion.outputs.
