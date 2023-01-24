@@ -23,7 +23,7 @@ jobs:
       - id: get-buildVersion
         run: |
             id=$( echo ${{ env.branch_source}} | cut -d- -f3)
-            echo "{id}::{$id}" >> $GITHUB_OUTPUT
+            echo "{id}={$id}" >> $GITHUB_OUTPUT
       - name: log-failure1
         if: failure()
         run: echo "${{env.branch_source}} is not in the correct format, please check merge branch format is xxx-build-###"
