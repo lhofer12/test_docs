@@ -24,7 +24,12 @@ jobs:
         run: |
             id=$( echo ${{ env.branch_source}} | cut -d- -f3)
             echo "::set-output name=id::$id"
-      - run: echo "${{steps.get-buildVersion.outputs.id}}"
+      - name: check-buildVersion
+        if: steps.get-buildVersion.outputs.id > 0
+        run: echo "${{steps.get-buildVersion.outputs.id}}"
+      - name: log-failure
+        if: failure()
+        run: echo "${{steps.get-buildVersion.outputs.id}} is not a number, please check merge branch format is xxx-build-###"
       - name: set-engineering-build
         if: env.branch_merge  == 'engineering'
         run: |
