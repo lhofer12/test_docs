@@ -30,10 +30,10 @@ jobs:
       - id: check-buildVersion
         if: steps.get-buildVersion.outputs.id > 0
         run: |
-          id=$( echo "passed")
+          id=$( echo 'passed')
           echo "::set-output name=id::$id"
       - name: if-failure
-        if: steps.check-buildVersion.outputs.id != "passed"
+        if: steps.check-buildVersion.outputs.id != 'passed'
         run: echo "${{steps.get-buildVersion.outputs.id}} is not a number, please check merge branch format is xxx-build-###"
 #       - name: log-failure
 #         if: steps.check-buildVersion.outputs.
@@ -47,7 +47,7 @@ jobs:
 #         run: |
 #           echo "releaseType=Engineering" >> $GITHUB_ENV
       - name: set-main-build
-        if: steps.check-buildVersion.outputs.id == "passed" && env.branch_merge  == 'main'
+        if: steps.check-buildVersion.outputs.id == 'passed' && env.branch_merge  == 'main'
         run: |
           echo "matlabTag=Build${{steps.get-buildVersion.outputs.id}}" >> $GITHUB_ENV
 #       - name: check-status
