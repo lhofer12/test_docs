@@ -6,7 +6,7 @@ on:
       head_ref: 
 #   pull_request:
 #     branches:
-#       - main
+#       - master
 #       - engineering
 #     types: 
 #       - closed
@@ -23,12 +23,10 @@ jobs:
       - id: get-buildVersion
         run: |
           echo "buildVersion=$( echo ${{ env.branch_source}} | cut -d- -f3)" >> $GITHUB_ENV
-         # echo "id=$id" >> $GITHUB_OUTPUT
       - name: log-failure1
         if: failure()
         run: echo "${{env.branch_source}} is not in the correct format, please check merge branch format is xxx-build-###"
       - id: check-buildVersion
-#         if: steps.get-buildVersion.outputs.id > 0
         if: env.buildVersion >0
         run: |
           id=$( echo 'passed')
@@ -36,47 +34,49 @@ jobs:
       - name: if-failure
         if: steps.check-buildVersion.outputs.buildVersionTrack != 'passed'
         run: echo "${{steps.get-buildVersion.outputs.id}} is not a number, please check merge branch format is xxx-build-###"
-#       - name: log-failure
-#         if: steps.check-buildVersion.outputs.
-#         run: echo "${{steps.get-buildVersion.outputs.id}} is not a number, please check merge branch format is xxx-build-###"
-#       - name: set-engineering-build
-#         if: env.branch_merge  == 'engineering'
-#         run: |
-#           echo "matlabTag=EngBuild${{steps.get-buildVersion.outputs.id}}" >> $GITHUB_ENV
-#       - name: set-engineering-release
-#         if: env.branch_merge  == 'engineering'
-#         run: |
-#           echo "releaseType=Engineering" >> $GITHUB_ENV
-      - name: set-main-build
-        if: steps.check-buildVersion.outputs.id == 'passed' && env.branch_merge  == 'main'
+      - name: set-engineering-build
+        if: env.branch_merge  == 'engineering' && steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
         run: |
-          echo "matlabTag=Build${{steps.get-buildVersion.outputs.id}}" >> $GITHUB_ENV
-#       - name: check-status
-        
-#       - name: set-main-release
-#         if: env.branch_merge  == 'main'
-#         run: |
-#           echo "releaseType=Commercial" >> $GITHUB_ENV
-#       - name: run-env
-#         run: env
-#       - name: Run flopatch-matlab repo workflows
-#         run: |
-#           echo "Run workflow"
-#           sleep 10s
-#       - uses: convictional/trigger-workflow-and-wait@v1.6.1
-#         with:
-#           owner: lhofer12
-#           repo: test_docs_target
-#           github_token: ${{ secrets.G_ACCESS_TOKEN }}
-#           workflow_file_name: PullRequest.yml        
-#           client_payload: '{"matlabtag":"${{env.matlabTag}}","releaseType":"${{env.releaseType}}", "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
-#       - name: Create tag
-#         uses: actions/github-script@v5
-#         with:
-#           script: |
-#             github.rest.git.createRef({
-#               owner: context.repo.owner,
-#               repo: context.repo.repo,
-#               ref: 'refs/tags/${{env.matlabTag}}',
-#               sha: context.sha
-#               })
+          echo "matlabTag=EngBuild${{steps.get-buildVersion.outputs.id}}" >> $GITHUB_ENV
+      - name: set-engineering-release
+        if: env.branch_merge  == 'engineering' && steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
+        run: |
+          echo "releaseType=Engineering" >> $GITHUB_ENV
+      - name: set-main-build
+        if: steps.check-buildVersion.outputs.buildVersionTrack == 'passed' && env.branch_merge  == 'main'
+        run: |
+          echo "matlabTag=Build${{steps.get-buildVersion.outputs.id}}" >> $GITHUB_ENV        
+      - name: set-main-release
+        if: env.branch_merge  == 'main' && steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
+        run: |
+          echo "releaseType=Commercial" >> $GITHUB_ENV
+      - name: run-env
+        if: steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
+        run: env
+      - name: Run flopatch-matlab repo workflows
+        if: steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
+        run: |
+          echo "Run workflow"
+          sleep 10s
+      - name: Trigger workflow
+        uses: convictional/trigger-workflow-and-wait@v1.6.1
+        if: steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
+        with:
+          owner: lhofer12
+          repo: test_docs_target
+          github_token: ${{ secrets.G_ACCESS_TOKEN }}
+          workflow_file_name: PullRequest.yml        
+          client_payload: '{"matlabtag":"${{env.matlabTag}}","releaseType":"${{env.releaseType}}", "buildVersion": "${{steps.get-buildVersion.outputs.id}}"}'
+      - name: Create tag
+        if: steps.check-buildVersion.outputs.buildVersionTrack == 'passed'
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{env.matlabTag}}',
+              sha: context.sha
+              })
+#       - name: complete
+       # TODO logging
