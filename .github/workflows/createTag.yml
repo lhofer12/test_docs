@@ -65,7 +65,7 @@ jobs:
           owner: lhofer12
           repo: test_docs_target
           ref: EngApp
-          github_token: ${{ secrets.TestGithubToken }}
+          github_token: ${{ secrets.G_ACCESS_TOKEN }}
           workflow_file_name: PullRequest.yml        
           client_payload: '{"matlabtag":"${{env.matlabTag}}","releaseType":"${{env.releaseType}}", "buildVersion": "${{env.buildVersion}}"}'
       - name: Create tag
